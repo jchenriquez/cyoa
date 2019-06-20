@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  api:
+    build:
+      context: "."
+      dockerfile: "./rest/build/Dockerfile"
+      cache_from:
+        - golang:1.8
+    env_file:
+      - rest/rest.env
+    environment:
+      PORT: ${REST_CONTAINER_PORT}
+    ports:
+      - "${REST_HOST_PORT}:${REST_CONTAINER_PORT}"
+  web:
+    build:
+      context: "."
+      dockerfile: "./web/build/Dockerfile"
+      cache_from:
+        - node:6
+    env_file:
+      - web/web.env
+    ports:
+      - "${WEB_HOST_PORT}:${WEB_CONTAINER_PORT}"
+    environment:
+      PORT: ${WEB_CONTAINER_PORT}
+
+
+
